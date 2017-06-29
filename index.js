@@ -59,6 +59,6 @@ app.post('/add-data/send', function(req, res){
 });
 
 // LISTEN TO SERVER
-app.listen(process.env.PORT || 3000, function(){
+app.listen(process.env.PORT || 80, function(){
 	console.log('[listening] ...');
 });
