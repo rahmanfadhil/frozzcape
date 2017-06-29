@@ -1,5 +1,6 @@
 var express = require('express');
 var exphbs = require('express-handlebars');
+var bodyParser = require('body-parser');
 
 var NodeCouchDb = require('node-couchdb');
 var couch = new NodeCouchDb({ auth: {user: 'admin', password: '12345'} });
@@ -8,6 +9,10 @@ var app = express();
 
 // EXPRESS STATIC FILE
 app.use(express.static('assets'));
+
+// USE BODY PARSER
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
 
 // CONFIGURE HANDLEBARS
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
@@ -33,6 +38,24 @@ app.get('/database', function(req, res){
 	    console.log(err);
 	  }
 	);
+});
+
+app.post('/add-data/send', function(req, res){
+	var name = req.body.name;
+	var email = req.body.email;
+
+	couch.uniqid().then(function(ids){
+		var id = ids[0];
+
+		couch.insert('frozzcape', { _id: id, name: name, email: email })
+
+		.then(function(data, header, status){
+			res.redirect('/database');
+		})
+		.catch(function(err){
+			res.send(err);
+		});
+	});
 });
 
 // LISTEN TO SERVER

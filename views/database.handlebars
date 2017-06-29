@@ -1,6 +1,23 @@
 <h1>DATABASE</h1>
-<ul>
-{{#each profile}}
-  <li>{{this.value.name}} - {{this.value.email}}</li>
-{{/each}}
-</li>
+<form method="post" action="/add-data/send">
+  <input type="text" name="name" placeholder="Name">
+  <input type="text" name="email" placeholder="Email">
+  <input type="submit" value="submit">
+</form>
+<hr>
+<table class="mdl-data-table mdl-js-data-table" width="100%">
+  <thead>
+    <tr>
+      <th class="mdl-data-table__cell--non-numeric">Name</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each profile}}
+    <tr>
+      <td class="mdl-data-table__cell--non-numeric">{{this.value.name}}</td>
+      <td>{{this.value.email}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
